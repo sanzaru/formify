@@ -48,7 +48,7 @@ The simplest form of validation would be to declare a state variable inside a vi
 ```swift
 ...
 
-@State private var formField = FormifyField(operators: [.required, .pattern(/[A-Za-z ]+/)])
+@State private var formField = FormifyField(operators: [.required, .pattern("[A-Za-z ]+")])
 
 ...
 
@@ -79,6 +79,8 @@ Button { } label: {
 | .minLength(Int) | If set, the value must be longer than the provided length. | ```.minLength(10)``` |
 | .maxLength(Int) | If set, the value must be shorter than the provided length. | ```.maxLength(10)``` |
 | .pattern(String) | If set, the value must match the provided regular expression. | ```.pattern("[a-zA-Z]")``` |
+| .pattern(RegEx) | If set, the value must match the provided regular expression. | ```.pattern("[a-zA-Z]")``` |
+| .email | If set, the value must match an internal regular expression for email addresses. | ```.pattern("[a-zA-Z]/)``` |
 
 
 ## Example
