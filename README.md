@@ -14,7 +14,7 @@ TextField or TextEditor elements without needing to add any special changes or m
 
 * XCode 16
 * Swift 6
-* iOS 16.0 / macOS 13.0 / tvOS 16.0 / watchOS 9.0
+* iOS 16.0 / macOS 13.0 / tvOS 16.0 / watchOS 9.0 / visionOS 1.0
 
 ## Installation
 
@@ -78,7 +78,7 @@ Button { } label: {
 | .required | If set, the field becomes required and cannot be left empty. | ```.required``` |
 | .minLength(Int) | If set, the value must be longer than the provided length. | ```.minLength(10)``` |
 | .maxLength(Int) | If set, the value must be shorter than the provided length. | ```.maxLength(10)``` |
-| .pattern(RegEx) | If set, the value must match the provided regular expression. | ```.pattern(/[a-zA-Z]/)``` |
+| .pattern(String) | If set, the value must match the provided regular expression. | ```.pattern("[a-zA-Z]")``` |
 
 
 ## Example
@@ -93,8 +93,8 @@ import Formify
 
 struct ContentView: View {
     struct FormFields {
-        var name = FormifyField(operators: [.required, .minLength(10), .maxLength(20), .pattern(/[A-Za-z ]+/)])
-        var email = FormifyField("foo@bar.com", operators: [.pattern(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/)])
+        var name = FormifyField(operators: [.required, .minLength(10), .maxLength(20), .pattern("[A-Za-z ]+")])
+        var email = FormifyField("foo@bar.com", operators: [.pattern("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")])
         var custom = FormifyField("Preset value", operators: [.required])
 
         var isValid: Bool {

@@ -9,7 +9,7 @@
 
 public enum FormifyOperator {
     case required
-    case pattern(Regex<Substring>)
+    case pattern(String)
     case minLength(Int)
     case maxLength(Int)
 }

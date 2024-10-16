@@ -44,7 +44,7 @@ public struct FormifyField {
             case .maxLength(let length):
                 maxLength = length
             case .pattern(let regex):
-                pattern = regex
+                pattern = try? Regex(regex)
             }
         }
     }
