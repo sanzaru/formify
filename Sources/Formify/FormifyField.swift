@@ -46,9 +46,9 @@ public struct FormifyField {
             case .pattern(let regex):
                 pattern = try? Regex(regex)
             case .email:
-                pattern = try? Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+                pattern = try? Regex(FormifyDefaultPattern.email.rawValue)
             case .phonenumber:
-                pattern = try? Regex("\\+?([0-9]{1,3})?[-.\\s]?(\\(?[0-9]{1,4}\\)?)?[-.\\s]?[0-9]{1,4}[-.\\s]?[0-9]{1,4}[-.\\s]?[0-9]{0,9}")
+                pattern = try? Regex(FormifyDefaultPattern.phone.rawValue)
             }
         }
     }
