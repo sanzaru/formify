@@ -12,4 +12,6 @@ public enum FormifyOperator {
     case pattern(String)
     case minLength(Int)
     case maxLength(Int)
+    case email
+    case phonenumber
 }

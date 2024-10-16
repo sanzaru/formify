@@ -29,7 +29,7 @@ public struct FormifyField {
     public private(set) var pattern: Regex<Substring>?
 
     public var isValid: Bool {
-        errors.isEmpty
+        isRequired && value.isEmpty ? false : errors.isEmpty
     }
 
     public init(_ initialValue: String = "", operators: [FormifyOperator] = []) {
@@ -45,6 +45,10 @@ public struct FormifyField {
                 maxLength = length
             case .pattern(let regex):
                 pattern = try? Regex(regex)
+            case .email:
+                pattern = try? Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+            case .phonenumber:
+                pattern = try? Regex("\\+?([0-9]{1,3})?[-.\\s]?(\\(?[0-9]{1,4}\\)?)?[-.\\s]?[0-9]{1,4}[-.\\s]?[0-9]{1,4}[-.\\s]?[0-9]{0,9}")
             }
         }
     }
