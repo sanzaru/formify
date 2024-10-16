@@ -2,7 +2,7 @@ import Testing
 @testable import Formify
 
 @Test func testValidation() async throws {
-    var field = FormifyField("", operators: [.pattern(/[a-z]+/)])
+    var field = FormifyField("", operators: [.pattern("[a-z]+")])
     #expect(field.value.isEmpty)
 
     field.value = "ABC"
@@ -20,6 +20,9 @@ import Testing
 
 @Test func testRequired() async throws {
     var field = FormifyField("", operators: [.required])
+
+    #expect(!field.isValid)
+    #expect(!field.isTouched)
 
     field.value = "ABC"
     field.value = ""
