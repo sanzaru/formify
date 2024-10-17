@@ -17,6 +17,7 @@ public struct FormifyField {
                 }
 
                 validate()
+                value = value.trimmingCharacters(in: .whitespacesAndNewlines)
             }
         }
     }
