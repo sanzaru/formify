@@ -16,8 +16,11 @@ public struct FormifyField {
                     isTouched = true
                 }
 
+                if !disableTrimming {
+                    value = value.trimmingCharacters(in: .whitespacesAndNewlines)
+                }
+
                 validate()
-                value = value.trimmingCharacters(in: .whitespacesAndNewlines)
             }
         }
     }
@@ -28,6 +31,8 @@ public struct FormifyField {
     public private(set) var minLength: Int?
     public private(set) var maxLength: Int?
     public private(set) var pattern: Regex<Substring>?
+
+    private var disableTrimming = false
 
     public var isValid: Bool {
         isRequired && value.isEmpty ? false : errors.isEmpty
@@ -50,6 +55,8 @@ public struct FormifyField {
                 pattern = try? Regex(FormifyDefaultPattern.email.rawValue)
             case .phonenumber:
                 pattern = try? Regex(FormifyDefaultPattern.phone.rawValue)
+            case .disableTrimming:
+                disableTrimming = true
             }
         }
     }

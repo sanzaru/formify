@@ -14,4 +14,5 @@ public enum FormifyOperator {
     case maxLength(Int)
     case email
     case phonenumber
+    case disableTrimming
 }
