@@ -71,3 +71,12 @@ import Testing
     field.value = "ABC"
     #expect(field.isValid)
 }
+
+@Test func testTrimming() async throws {
+    var field = FormifyField("", operators: [.required, .maxLength(3)])
+    #expect(field.value.isEmpty)
+
+    field.value = "ABCD   "
+    #expect(!field.value.isEmpty)
+    #expect(field.value.count == 4)
+}
