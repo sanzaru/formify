@@ -12,8 +12,7 @@ TextField or TextEditor elements without needing to add any special changes or m
 
 ## Requirements
 
-* XCode 16
-* Swift 6
+* Swift 5.9
 * iOS 16.0 / macOS 13.0 / tvOS 16.0 / watchOS 9.0 / visionOS 1.0
 
 ## Installation
