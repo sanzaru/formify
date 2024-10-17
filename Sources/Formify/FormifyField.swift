@@ -40,6 +40,7 @@ public struct FormifyField {
 
     public init(_ initialValue: String = "", operators: [FormifyOperator] = []) {
         self.value = initialValue
+        self.isTouched = !initialValue.isEmpty
 
         operators.forEach {
             switch $0 {
@@ -59,6 +60,8 @@ public struct FormifyField {
                 disableTrimming = true
             }
         }
+
+        validate()
     }
 }
 
