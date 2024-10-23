@@ -80,3 +80,27 @@ import Testing
     #expect(!field.value.isEmpty)
     #expect(field.value.count == 4)
 }
+
+@Test func testURLWithScheme() async throws {
+    var field = FormifyField("https://example.com", operators: [.urlWithScheme])
+    #expect(!field.value.isEmpty)
+    #expect(field.isValid)
+
+    field.value = "foobar"
+    #expect(!field.isValid)
+}
+
+@Test func testURLNoScheme() async throws {
+    var field = FormifyField("localhost", operators: [.urlNoScheme])
+    #expect(!field.value.isEmpty)
+    #expect(field.isValid)
+
+    field.value = "example.com"
+    #expect(field.isValid)
+
+    field.value = "https://example.com"
+    #expect(!field.isValid)
+
+    field.value = "()()()@@@@@´´´´´````)"
+    #expect(!field.isValid)
+}

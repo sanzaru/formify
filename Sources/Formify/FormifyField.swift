@@ -56,6 +56,10 @@ public struct FormifyField {
                 pattern = try? Regex(FormifyDefaultPattern.email.rawValue)
             case .phonenumber:
                 pattern = try? Regex(FormifyDefaultPattern.phone.rawValue)
+            case .urlNoScheme:
+                pattern = try? Regex(FormifyDefaultPattern.urlNoScheme.rawValue)
+            case .urlWithScheme:
+                pattern = try? Regex(FormifyDefaultPattern.urlWithScheme.rawValue)
             case .disableTrimming:
                 disableTrimming = true
             }

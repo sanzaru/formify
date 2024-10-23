@@ -80,6 +80,8 @@ Button { } label: {
 | .pattern(String) | If set, the value must match the provided regular expression. | ```.pattern("[a-zA-Z]")``` |
 | .email | If set, the value must match an internal regular expression for email addresses. | ```.email``` |
 | .phone | If set, the value must match an internal regular expression for phone numbers. | ```.phone``` |
+| .urlWithScheme | If set, the value must match an internal regular expression for URLs with scheme (e.g. https://example.com, file://some-file). | ```.urlWithScheme``` |
+| .urlNoScheme | If set, the value must match an internal regular expression for URLs without scheme (e.g. localhost, example.com). | ```.urlNoScheme``` |
 | .disableTrimming | If set, the automatic trimming of white spaces and new lines is disabled. | ```.disableTrimming``` |
 
 
