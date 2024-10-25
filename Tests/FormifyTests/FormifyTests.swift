@@ -86,6 +86,9 @@ import Testing
     #expect(!field.value.isEmpty)
     #expect(field.isValid)
 
+    field.value = "https://example.com?foo=bar&foo2=bar2"
+    #expect(field.isValid)
+
     field.value = "foobar"
     #expect(!field.isValid)
 }
