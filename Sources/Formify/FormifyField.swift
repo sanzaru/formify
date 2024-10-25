@@ -30,7 +30,7 @@ public struct FormifyField {
     public private(set) var isTouched = false
     public private(set) var minLength: Int?
     public private(set) var maxLength: Int?
-    public private(set) var pattern: Regex<Substring>?
+    public private(set) var pattern: String?
 
     private var disableTrimming = false
 
@@ -51,15 +51,15 @@ public struct FormifyField {
             case .maxLength(let length):
                 maxLength = length
             case .pattern(let regex):
-                pattern = try? Regex(regex)
+                pattern = regex
             case .email:
-                pattern = try? Regex(FormifyDefaultPattern.email.rawValue)
+                pattern = FormifyDefaultPattern.email.rawValue
             case .phonenumber:
-                pattern = try? Regex(FormifyDefaultPattern.phone.rawValue)
+                pattern = FormifyDefaultPattern.phone.rawValue
             case .urlNoScheme:
-                pattern = try? Regex(FormifyDefaultPattern.urlNoScheme.rawValue)
+                pattern = FormifyDefaultPattern.urlNoScheme.rawValue
             case .urlWithScheme:
-                pattern = try? Regex(FormifyDefaultPattern.urlWithScheme.rawValue)
+                pattern = FormifyDefaultPattern.urlWithScheme.rawValue
             case .disableTrimming:
                 disableTrimming = true
             }
@@ -88,7 +88,7 @@ extension FormifyField {
             errors.append(.maxLength(value.count))
         }
 
-        if let pattern, (try? pattern.wholeMatch(in: value)) == nil {
+        if let pattern, let regex = try? Regex(pattern), (try? regex.wholeMatch(in: value)) == nil {
             errors.append(.pattern)
         }
     }
