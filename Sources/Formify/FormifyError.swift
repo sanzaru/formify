@@ -12,4 +12,5 @@ public enum FormifyError: Error, Hashable {
     case pattern
     case minLength(Int)
     case maxLength(Int)
+    case custom
 }

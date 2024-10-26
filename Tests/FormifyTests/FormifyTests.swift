@@ -113,3 +113,13 @@ import Testing
     field.value = "()()()@@@@@´´´´´````)"
     #expect(!field.isValid)
 }
+
+@Test func testCustomHandler() async throws {
+    var field = FormifyField("Some Value", operators: [.custom({ $0 == "Foo" })])
+    #expect(!field.value.isEmpty)
+
+    #expect(!field.isValid)
+
+    field.value = "Foo"
+    #expect(field.isValid)
+}

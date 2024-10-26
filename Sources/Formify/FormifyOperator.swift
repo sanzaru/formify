@@ -17,4 +17,5 @@ public enum FormifyOperator {
     case urlNoScheme
     case urlWithScheme
     case disableTrimming
+    case custom(FormifyCustomValidationHandler)
 }

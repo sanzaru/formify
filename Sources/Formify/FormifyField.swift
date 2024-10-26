@@ -31,6 +31,7 @@ public struct FormifyField {
     public private(set) var minLength: Int?
     public private(set) var maxLength: Int?
     public private(set) var pattern: String?
+    public private(set) var customHandler: FormifyCustomValidationHandler?
 
     private var disableTrimming = false
 
@@ -62,6 +63,8 @@ public struct FormifyField {
                 pattern = FormifyDefaultPattern.urlWithScheme.rawValue
             case .disableTrimming:
                 disableTrimming = true
+            case .custom(let handler):
+                customHandler = handler
             }
         }
 
@@ -86,6 +89,10 @@ extension FormifyField {
 
         if let maxLength, value.count > maxLength {
             errors.append(.maxLength(value.count))
+        }
+
+        if let customHandler, !customHandler(value) {
+            errors.append(.custom)
         }
 
         if let pattern, let regex = try? Regex(pattern), (try? regex.wholeMatch(in: value)) == nil {
