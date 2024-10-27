@@ -1,4 +1,8 @@
-# 📃 Formify - Swift library for fast and easy form and input validation
+<p align="center">
+    <img src="Assets/Images/Logo.png" width="150">
+</p>
+
+# Formify - Swift library for fast and easy form and input validation
 
 Formify is a Swift library designed for easy form and input validation. With Formify, you can easily validate all your
 TextField or TextEditor elements without needing to add any special changes or modifiers.
