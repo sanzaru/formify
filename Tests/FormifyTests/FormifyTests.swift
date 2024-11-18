@@ -92,6 +92,15 @@ import Testing
     field.value = "https://example.com/somepath/?foo=bar&foo2=bar2"
     #expect(field.isValid)
 
+    field.value = "https://an-url.with.some.domain.entries/and/some/path-example"
+    #expect(field.isValid)
+
+    field.value = "https://an-url.with.some.domain.entries/and/some/path-example?foo=bar&foo2=bar2"
+    #expect(field.isValid)
+
+    field.value = "https://an-url.with.some.domain.entries/and/some/path-example/?foo=bar&foo2=bar2#foo"
+    #expect(field.isValid)
+
     field.value = "ssh://localhost"
     #expect(field.isValid)
 
