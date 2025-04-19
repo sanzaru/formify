@@ -26,7 +26,7 @@ public struct FormifyField {
     }
 
     public private(set) var errors = [FormifyError]()
-    public private(set) var isRequired = true
+    public private(set) var isRequired = false
     public private(set) var isTouched = false
     public private(set) var minLength: Int?
     public private(set) var maxLength: Int?
