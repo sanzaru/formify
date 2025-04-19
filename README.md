@@ -185,6 +185,7 @@ struct FormValidationErrorWrapperModifier: ViewModifier {
                         case .required: Text("Required")
                         case .minLength(let length): Text("Min length \(length) / \(formField.minLength ?? 0)")
                         case .maxLength(let length): Text("Max length \(length) / \(formField.maxLength ?? 0)")
+                        case .custom: Text("Invalid input")
                         }
                     }
                     .font(.caption)
