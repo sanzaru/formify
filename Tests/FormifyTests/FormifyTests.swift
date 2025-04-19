@@ -18,6 +18,18 @@ import Testing
     #expect(field.isValid)
 }
 
+@Test func testTouched() async throws {
+    var field = FormifyField("", operators: [.pattern("[a-z]+")])
+    #expect(field.value.isEmpty)
+    #expect(!field.isTouched)
+
+    field.value = "ABC"
+    #expect(!field.value.isEmpty)
+    #expect(field.value.count == 3)
+    #expect(field.isTouched)
+}
+
+
 @Test func testRequired() async throws {
     var field = FormifyField("", operators: [.required])
 
@@ -31,6 +43,25 @@ import Testing
     #expect(field.errors.first == .required)
 
     field.value = "ABC"
+    #expect(field.isValid)
+}
+
+@Test func nonRequired() async throws {
+    var field = FormifyField("", operators: [.pattern("[a-z]+")])
+
+    #expect(field.value.isEmpty)
+    #expect(field.isValid)
+    #expect(field.errors.isEmpty)
+    #expect(!field.isTouched)
+    #expect(!field.isRequired)
+
+    // Write something to the field
+    field.value = "abc"
+    #expect(!field.value.isEmpty)
+
+    // Empty the field
+    field.value = ""
+    #expect(field.errors.isEmpty)
     #expect(field.isValid)
 }
 
