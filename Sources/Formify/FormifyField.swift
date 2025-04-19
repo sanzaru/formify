@@ -78,6 +78,10 @@ extension FormifyField {
     private mutating func validate() {
         errors = []
 
+        if !isRequired && value.isEmpty {
+            return
+        }
+
         if isRequired && value.isEmpty {
             errors.append(.required)
             return
