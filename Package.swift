@@ -10,13 +10,9 @@ let package = Package(
             name: "Formify",
             targets: ["Formify"]),
     ],
-    dependencies: [
-        .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.57.0")
-    ],
     targets: [
         .target(
-            name: "Formify",
-            plugins: [.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")]
+            name: "Formify"
         ),
         .testTarget(
             name: "FormifyTests",
