@@ -163,3 +163,54 @@ import Testing
     field.value = "Foo"
     #expect(field.isValid)
 }
+
+@Test func testEmailOperator() async throws {
+    var field = FormifyField("", operators: [.email])
+    // Invalid email
+    field.value = "notanemail"
+    #expect(!field.isValid)
+    // Valid email
+    field.value = "foo@bar.com"
+    #expect(field.isValid)
+}
+
+@Test func testPhoneOperator() async throws {
+    var field = FormifyField("", operators: [.phonenumber])
+    // Invalid phone
+    field.value = "abcdefg"
+    #expect(!field.isValid)
+    // Valid phone (simple check, as per default pattern)
+    field.value = "+1-202-555-0173"
+    #expect(field.isValid)
+}
+
+@Test func testDisableTrimmingOperator() async throws {
+    var field = FormifyField("   value   ", operators: [.disableTrimming])
+    // Should not trim, so value remains with whitespace
+    #expect(field.value == "   value   ")
+    // Update value and check again
+    field.value = "  abc  "
+    #expect(field.value == "  abc  ")
+}
+
+@Test func testCollectionIsValid() async throws {
+    let field1 = FormifyField("abc", operators: [.required, .minLength(2)])
+    let field2 = FormifyField("", operators: [.pattern("[a-z]+")])
+    let field3 = FormifyField("foobar", operators: [.required])
+    let fields = [field1, field2, field3]
+    // All valid except field2, which is empty but not required
+    #expect(!fields.isValid)
+    // Now, make a required field invalid
+    let invalidFields = [field1, field2, FormifyField("", operators: [.required])]
+    #expect(!invalidFields.isValid)
+}
+
+@Test func testInitWithNonEmptyValue() async throws {
+    var field = FormifyField("preset", operators: [.minLength(3)])
+    #expect(field.isTouched)
+    #expect(field.errors.isEmpty)
+    // If minLength is higher than the value, should error
+    field = FormifyField("short", operators: [.minLength(10)])
+    #expect(!field.errors.isEmpty)
+    #expect(!field.isValid)
+}
