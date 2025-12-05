@@ -1,47 +1,67 @@
 name: Manual Unicode Audit (Main Branch)
-id: unicode_scan
-run: |
-  echo "--- Starting Unicode Audit on branch: ${{ github.event.inputs.branch }} ---"
 
-  # -----------------------------------------------------------
-  # 1. Define Invisible Unicode Characters using shell-compatible escapes
-  # -----------------------------------------------------------
-  # We use the '$'\uXXXX' shell syntax to inject the literal character,
-  # which is better supported than relying on grep's regex engine to parse \u.
+on:
+  # Allows the workflow to be manually triggered from the GitHub UI
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Target branch to audit (e.g., main or master)'
+        required: true
+        default: 'main'
 
-  INVISIBLE_CHARS="($'\u200B'|$'\u200C'|$'\u200D'|$'\uFEFF'|$'\u2060'|$'\u00AD'|$'\u200E'|$'\u200F'|$'\u0000')"
+jobs:
+  audit_unicode:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }} # Checkout the branch specified by the user
 
-  # -----------------------------------------------------------
-  # 2. Scan the entire repository, ignoring binary and git metadata
-  # -----------------------------------------------------------
+      - name: 🔍 Scan All Files for Invisible Characters (Fixed)
+        id: unicode_scan
+        run: |
+          echo "--- Starting Unicode Audit on branch: ${{ github.event.inputs.branch }} ---"
 
-  # We use the standard 'grep -E' (Extended Regex) which handles '|' (OR).
-  # The regex now contains the *actual literal characters* defined above.
+          # -----------------------------------------------------------
+          # 1. Define Invisible Unicode Characters using shell-compatible escapes
+          # -----------------------------------------------------------
+          # We use the '$'\uXXXX' shell syntax to inject the literal character,
+          # which is better supported than relying on grep's regex engine to parse \u.
 
-  # -r: Recursive search
-  # -I: Skip binary files
-  # -E: Extended Regular Expressions (needed for literal '|' OR operator)
-  # -n: Display line number
-  # -H: Display file name
-  # -o: Only print the matching part (the invisible character itself)
+          INVISIBLE_CHARS="($'\u200B'|$'\u200C'|$'\u200D'|$'\uFEFF'|$'\u2060'|$'\u00AD'|$'\u200E'|$'\u200F'|$'\u0000')"
 
-  ERROR_OUTPUT=$(grep -rIEHno "$INVISIBLE_CHARS" . \
-    --exclude-dir={.git,.github,node_modules} 2>&1 || true)
+          # -----------------------------------------------------------
+          # 2. Scan the entire repository, ignoring binary and git metadata
+          # -----------------------------------------------------------
 
-  # -----------------------------------------------------------
-  # 3. Report findings and fail if necessary
-  # -----------------------------------------------------------
+          # We use the standard 'grep -E' (Extended Regex) which handles '|' (OR).
+          # The regex now contains the *actual literal characters* defined above.
 
-  if [ -n "$ERROR_OUTPUT" ]; then
-    echo "---"
-    echo "❌ AUDIT FAILED: Invisible Unicode Characters found."
-    echo "---"
-    # Output the error log
-    echo "$ERROR_OUTPUT"
-    echo "---"
-    exit 1
-  else
-    echo "---"
-    echo "✅ AUDIT PASSED: No invisible Unicode characters found in the repository."
-    echo "---"
-  fi
+          # -r: Recursive search
+          # -I: Skip binary files
+          # -E: Extended Regular Expressions (needed for literal '|' OR operator)
+          # -n: Display line number
+          # -H: Display file name
+          # -o: Only print the matching part (the invisible character itself)
+
+          ERROR_OUTPUT=$(grep -rIEHno "$INVISIBLE_CHARS" . \
+            --exclude-dir={.git,.github,node_modules} 2>&1 || true)
+
+          # -----------------------------------------------------------
+          # 3. Report findings and fail if necessary
+          # -----------------------------------------------------------
+
+          if [ -n "$ERROR_OUTPUT" ]; then
+            echo "---"
+            echo "❌ AUDIT FAILED: Invisible Unicode Characters found."
+            echo "---"
+            # Output the error log
+            echo "$ERROR_OUTPUT"
+            echo "---"
+            exit 1
+          else
+            echo "---"
+            echo "✅ AUDIT PASSED: No invisible Unicode characters found in the repository."
+            echo "---"
+          fi
